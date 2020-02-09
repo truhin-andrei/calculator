@@ -6,26 +6,41 @@ import ButtonsPanel from '../buttons-panel/buttonsPanel';
 import InputPanel from '../input-panel/inputPanel';
 
 class Tab extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tabName: props.tabName,
-    };
-    this.tabToggle = this.tabToggle.bind(this);
-  }
-
-  tabToggle(tabName) {
+  static tabToggle(tabName) {
     if (tabName === 'loan') {
       return (
         <>
-          <ButtonsPanel data={this.props} />
+          <ButtonsPanel
+            buttonRenderData={{
+              label: 'Term(months)',
+              btnData: [
+                ['36', 'three'],
+                ['48', 'four'],
+                ['60', 'five'],
+                ['72', 'six'],
+                ['84', 'seven'],
+              ],
+              name: 'months',
+            }}
+          />
           <InputPanel
             inputRenderData={{ label: 'Trade-In Value', inputType: 'money', name: 'tradeIn' }}
           />
           <InputPanel
             inputRenderData={{ label: 'Down Payment', inputType: 'money', name: 'downPayment' }}
           />
-          <ButtonsPanel />
+          <ButtonsPanel
+            buttonRenderData={{
+              label: 'Approximate Credit Score',
+              btnData: [
+                ['639 or less', 'poor'],
+                ['640-699', 'fair'],
+                ['700-749', 'good'],
+                ['750-850', 'excellent'],
+              ],
+              name: 'creditScore',
+            }}
+          />
           <InputPanel
             inputRenderData={{ label: 'Estimated APR', inputType: 'percent', name: 'APR' }}
           />
@@ -35,13 +50,30 @@ class Tab extends Component {
     return <>TabLease</>;
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      tabName: props.tabName,
+    };
+    //  this.tabToggle = this.tabToggle.bind(this);
+  }
+
   render() {
     const { tabName } = this.state;
     return (
-      <div className="col-md-7 tab-loan">
-        <ButtonsPanel />
+      <div className="col-md-7 tab">
+        <ButtonsPanel
+          buttonRenderData={{
+            label: '',
+            btnData: [
+              ['Loan', 'loan'],
+              ['Lease', 'lease'],
+            ],
+            name: 'tabToggle',
+          }}
+        />
         <TextPanel />
-        {this.tabToggle(tabName)}
+        {Tab.tabToggle(tabName)}
       </div>
     );
   }

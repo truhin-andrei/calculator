@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './buttonsPanel.css';
 
 class ButtonsPanel extends Component {
@@ -11,15 +12,37 @@ class ButtonsPanel extends Component {
 
   render() {
     const { title } = this.state;
+    const {
+      buttonRenderData: { label, btnData, btnGroupName },
+    } = this.props;
     return (
-      <div>
-        <span>{title}</span>
-        <button id={title} type="button">
+      <div className="btn-panel">
+        <span className="btn-header">
+          {label}
           {title}
-        </button>
+        </span>
+        {btnData.map(([btnTitle, name]) => (
+          <button
+            id={name}
+            key={name}
+            name={btnGroupName}
+            type="button"
+            className="btn btn-primary"
+          >
+            {btnTitle}
+          </button>
+        ))}
       </div>
     );
   }
 }
+
+ButtonsPanel.propTypes = {
+  buttonRenderData: PropTypes.shape({
+    label: PropTypes.string,
+    btnData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
+    btnGroupName: PropTypes.string,
+  }).isRequired,
+};
 
 export default ButtonsPanel;
