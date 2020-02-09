@@ -1,22 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import './tab.css';
 import TextPanel from '../text-panel/textPanel';
 import ButtonsPanel from '../buttons-panel/buttonsPanel';
 import InputPanel from '../input-panel/inputPanel';
 
-class Tab extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tabName1: props.tabName,
-    };
-    this.tabToggle = this.tabToggle.bind(this);
-  }
-
-  tabToggle(tabName) {
-    const { handleBtn, term, creditScore } = this.props;
-    if (tabName === 'loan') {
+const Tab = ({ tabName, handleBtn, term, creditScore, handleInput, tradeIn, downPayment, APR }) => {
+  function tabToggle(tabN) {
+    if (tabN === 'loan') {
       return (
         <>
           <ButtonsPanel
@@ -30,9 +21,13 @@ class Tab extends Component {
           />
           <InputPanel
             inputRenderData={{ label: 'Trade-In Value', inputType: 'money', name: 'tradeIn' }}
+            handleInput={handleInput}
+            inputValue={tradeIn}
           />
           <InputPanel
             inputRenderData={{ label: 'Down Payment', inputType: 'money', name: 'downPayment' }}
+            handleInput={handleInput}
+            inputValue={downPayment}
           />
           <ButtonsPanel
             buttonRenderData={{
@@ -45,6 +40,8 @@ class Tab extends Component {
           />
           <InputPanel
             inputRenderData={{ label: 'Estimated APR', inputType: 'percent', name: 'APR' }}
+            handleInput={handleInput}
+            inputValue={APR}
           />
         </>
       );
@@ -52,33 +49,32 @@ class Tab extends Component {
     return <>TabLease</>;
   }
 
-  render() {
-    const { tabName1 } = this.state;
-    const { tabName, handleBtn } = this.props;
-
-    return (
-      <div className="col-md-7 tab">
-        <ButtonsPanel
-          buttonRenderData={{
-            label: '',
-            btnData: ['loan', 'lease'],
-            nameBtn: 'tabName',
-          }}
-          handleBtn={handleBtn}
-          classNameActive={tabName || tabName1}
-        />
-        <TextPanel />
-        {this.tabToggle(tabName)}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="col-md-7 tab">
+      <ButtonsPanel
+        buttonRenderData={{
+          label: '',
+          btnData: ['loan', 'lease'],
+          nameBtn: 'tabName',
+        }}
+        handleBtn={handleBtn}
+        classNameActive={tabName}
+      />
+      <TextPanel />
+      {tabToggle(tabName)}
+    </div>
+  );
+};
 
 Tab.propTypes = {
   tabName: PropTypes.string,
   handleBtn: PropTypes.func.isRequired,
   term: PropTypes.string.isRequired,
   creditScore: PropTypes.string.isRequired,
+  handleInput: PropTypes.func.isRequired,
+  tradeIn: PropTypes.number.isRequired,
+  downPayment: PropTypes.number.isRequired,
+  APR: PropTypes.number.isRequired,
 };
 Tab.defaultProps = {
   tabName: 'loan',

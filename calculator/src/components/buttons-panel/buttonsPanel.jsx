@@ -1,45 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import './buttonsPanel.css';
 
-class ButtonsPanel extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: 'Title',
-    };
-  }
-
-  render() {
-    const { title } = this.state;
-    const {
-      buttonRenderData: { label, btnData, nameBtn },
-      handleBtn,
-      classNameActive,
-    } = this.props;
-    console.log(btnData, classNameActive);
-    return (
-      <div className="btn-panel">
-        <span className="btn-header">
-          {label}
-          {title}
-        </span>
-        {btnData.map(name => (
-          <button
-            id={name}
-            key={name}
-            name={name}
-            type="button"
-            className={`btn ${name === classNameActive ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={event => handleBtn(event.target.id, nameBtn)}
-          >
-            {name}
-          </button>
-        ))}
-      </div>
-    );
-  }
-}
+const ButtonsPanel = ({
+  buttonRenderData: { label, btnData, nameBtn },
+  handleBtn,
+  classNameActive,
+}) => {
+  return (
+    <div className="btn-panel">
+      <span className="btn-header">{label}</span>
+      {btnData.map(name => (
+        <button
+          id={name}
+          key={name}
+          name={name}
+          type="button"
+          className={`btn ${name === classNameActive ? 'btn-primary' : 'btn-secondary'}`}
+          onClick={event => handleBtn(event.target.id, nameBtn)}
+        >
+          {name}
+        </button>
+      ))}
+    </div>
+  );
+};
 
 ButtonsPanel.propTypes = {
   buttonRenderData: PropTypes.shape({
