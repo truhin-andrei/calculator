@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
 import './app.css';
+import Tab from '../tab/tab';
+import Card from '../card/card';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
+      tabName: 'loan',
     };
   }
 
   render() {
-    const { loading } = this.state;
+    const { loading, tabName } = this.state;
+    if (!loading) {
+      return 'loading';
+    }
     return (
-      <h2 className="app">
-        Gjjksdkf
-        {loading}
-      </h2>
+      <div className="app">
+        <Tab tabName={tabName} />
+        <Card />
+      </div>
     );
   }
 }
