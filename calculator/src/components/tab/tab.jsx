@@ -6,7 +6,16 @@ import ButtonsPanel from '../buttons-panel/buttonsPanel';
 import InputPanel from '../input-panel/inputPanel';
 
 class Tab extends Component {
-  static tabToggle(tabName) {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tabName: props.tabName,
+    };
+    this.tabToggle = this.tabToggle.bind(this);
+  }
+
+  tabToggle(tabName) {
+    const { handleBtn, term } = this.props;
     if (tabName === 'loan') {
       return (
         <>
@@ -14,14 +23,17 @@ class Tab extends Component {
             buttonRenderData={{
               label: 'Term(months)',
               btnData: [
-                ['36', 'three'],
-                ['48', 'four'],
-                ['60', 'five'],
-                ['72', 'six'],
-                ['84', 'seven'],
+                ['12', '12'],
+                ['24', '24'],
+                ['36', '36'],
+                ['48', '48'],
+                ['72', '72'],
+                ['84', '84'],
               ],
               name: 'months',
             }}
+            handleBtn={handleBtn}
+            classNameActive={term}
           />
           <InputPanel
             inputRenderData={{ label: 'Trade-In Value', inputType: 'money', name: 'tradeIn' }}
@@ -29,7 +41,7 @@ class Tab extends Component {
           <InputPanel
             inputRenderData={{ label: 'Down Payment', inputType: 'money', name: 'downPayment' }}
           />
-          <ButtonsPanel
+          {/* <ButtonsPanel
             buttonRenderData={{
               label: 'Approximate Credit Score',
               btnData: [
@@ -40,7 +52,7 @@ class Tab extends Component {
               ],
               name: 'creditScore',
             }}
-          />
+          /> */}
           <InputPanel
             inputRenderData={{ label: 'Estimated APR', inputType: 'percent', name: 'APR' }}
           />
@@ -50,19 +62,11 @@ class Tab extends Component {
     return <>TabLease</>;
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      tabName: props.tabName,
-    };
-    //  this.tabToggle = this.tabToggle.bind(this);
-  }
-
   render() {
     const { tabName } = this.state;
     return (
       <div className="col-md-7 tab">
-        <ButtonsPanel
+        {/* <ButtonsPanel
           buttonRenderData={{
             label: '',
             btnData: [
@@ -71,9 +75,9 @@ class Tab extends Component {
             ],
             name: 'tabToggle',
           }}
-        />
+        /> */}
         <TextPanel />
-        {Tab.tabToggle(tabName)}
+        {this.tabToggle(tabName)}
       </div>
     );
   }
@@ -81,6 +85,8 @@ class Tab extends Component {
 
 Tab.propTypes = {
   tabName: PropTypes.string,
+  handleBtn: PropTypes.func.isRequired,
+  term: PropTypes.string.isRequired,
 };
 Tab.defaultProps = {
   tabName: 'loan',

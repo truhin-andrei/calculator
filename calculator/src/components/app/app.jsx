@@ -9,17 +9,24 @@ class App extends Component {
     this.state = {
       loading: true,
       tabName: 'loan',
+      term: '24',
     };
+    this.handleTermBtn = this.handleTermBtn.bind(this);
+  }
+
+  handleTermBtn(term) {
+    console.log(1, term);
+    this.setState({ term });
   }
 
   render() {
-    const { loading, tabName } = this.state;
+    const { loading, tabName, term } = this.state;
     if (!loading) {
       return 'loading';
     }
     return (
       <div className="app">
-        <Tab tabName={tabName} />
+        <Tab tabName={tabName} handleBtn={this.handleTermBtn} term={term} />
         <Card />
       </div>
     );

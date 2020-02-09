@@ -14,6 +14,8 @@ class ButtonsPanel extends Component {
     const { title } = this.state;
     const {
       buttonRenderData: { label, btnData, btnGroupName },
+      handleBtn,
+      classNameActive,
     } = this.props;
     return (
       <div className="btn-panel">
@@ -27,7 +29,8 @@ class ButtonsPanel extends Component {
             key={name}
             name={btnGroupName}
             type="button"
-            className="btn btn-primary"
+            className={`btn ${name === classNameActive ? 'btn-primary' : 'btn-secondary'}`}
+            onClick={event => handleBtn(event.target.id)}
           >
             {btnTitle}
           </button>
@@ -43,6 +46,8 @@ ButtonsPanel.propTypes = {
     btnData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
     btnGroupName: PropTypes.string,
   }).isRequired,
+  handleBtn: PropTypes.func.isRequired,
+  classNameActive: PropTypes.string.isRequired,
 };
 
 export default ButtonsPanel;
