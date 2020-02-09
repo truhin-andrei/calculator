@@ -13,26 +13,27 @@ class ButtonsPanel extends Component {
   render() {
     const { title } = this.state;
     const {
-      buttonRenderData: { label, btnData, btnGroupName },
+      buttonRenderData: { label, btnData, nameBtn },
       handleBtn,
       classNameActive,
     } = this.props;
+    console.log(btnData, classNameActive);
     return (
       <div className="btn-panel">
         <span className="btn-header">
           {label}
           {title}
         </span>
-        {btnData.map(([btnTitle, name]) => (
+        {btnData.map(name => (
           <button
             id={name}
             key={name}
-            name={btnGroupName}
+            name={name}
             type="button"
             className={`btn ${name === classNameActive ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={event => handleBtn(event.target.id)}
+            onClick={event => handleBtn(event.target.id, nameBtn)}
           >
-            {btnTitle}
+            {name}
           </button>
         ))}
       </div>
@@ -43,8 +44,8 @@ class ButtonsPanel extends Component {
 ButtonsPanel.propTypes = {
   buttonRenderData: PropTypes.shape({
     label: PropTypes.string,
-    btnData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
-    btnGroupName: PropTypes.string,
+    btnData: PropTypes.arrayOf(PropTypes.string),
+    nameBtn: PropTypes.string,
   }).isRequired,
   handleBtn: PropTypes.func.isRequired,
   classNameActive: PropTypes.string.isRequired,

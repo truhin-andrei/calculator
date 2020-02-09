@@ -10,23 +10,30 @@ class App extends Component {
       loading: true,
       tabName: 'loan',
       term: '24',
+      creditScore: '750',
     };
-    this.handleTermBtn = this.handleTermBtn.bind(this);
+    this.handleBtn = this.handleBtn.bind(this);
   }
 
-  handleTermBtn(term) {
-    console.log(1, term);
-    this.setState({ term });
+  handleBtn(newValue, nameBtn) {
+    console.log(1, newValue, nameBtn);
+    if (nameBtn === 'term') {
+      this.setState({ term: newValue });
+    } else if (nameBtn === 'creditScore') {
+      this.setState({ creditScore: newValue });
+    } else {
+      this.setState({ tabName: newValue });
+    }
   }
 
   render() {
-    const { loading, tabName, term } = this.state;
+    const { loading, tabName, term, creditScore } = this.state;
     if (!loading) {
       return 'loading';
     }
     return (
       <div className="app">
-        <Tab tabName={tabName} handleBtn={this.handleTermBtn} term={term} />
+        <Tab tabName={tabName} handleBtn={this.handleBtn} term={term} creditScore={creditScore} />
         <Card />
       </div>
     );
