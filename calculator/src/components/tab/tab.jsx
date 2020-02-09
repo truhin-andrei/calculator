@@ -19,10 +19,16 @@ class Tab extends Component {
       return (
         <>
           <ButtonsPanel data={this.props} />
-          <InputPanel />
-          <InputPanel />
+          <InputPanel
+            inputRenderData={{ label: 'Trade-In Value', inputType: 'money', name: 'tradeIn' }}
+          />
+          <InputPanel
+            inputRenderData={{ label: 'Down Payment', inputType: 'money', name: 'downPayment' }}
+          />
           <ButtonsPanel />
-          <InputPanel />
+          <InputPanel
+            inputRenderData={{ label: 'Estimated APR', inputType: 'percent', name: 'APR' }}
+          />
         </>
       );
     }
