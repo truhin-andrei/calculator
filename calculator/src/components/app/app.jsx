@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './app.css';
 import Tab from '../tab/tab';
 import Card from '../card/card';
+import carBase from '../../api/car-base/carBase';
 
 class App extends Component {
   constructor(props) {
@@ -17,6 +18,11 @@ class App extends Component {
     };
     this.handleBtn = this.handleBtn.bind(this);
     this.handleInput = this.handleInput.bind(this);
+  }
+
+  async componentDidMount() {
+    const a = await carBase();
+    console.log(2, a);
   }
 
   handleBtn(newValue, nameBtn) {
