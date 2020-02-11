@@ -10,7 +10,7 @@ function NothingPlugin() {
 }
 
 const config = {
-  entry: './src/index.jsx',
+  entry: ["@babel/polyfill",'./src/index.jsx'],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -32,7 +32,7 @@ const config = {
         },
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
+        test: /\.(png|svg|jpg|gif|json)$/,
         use: [
           {
             loader: 'url-loader',
@@ -43,7 +43,7 @@ const config = {
         ],
       },
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        test: /\.(woff|woff2|eot|ttf|otf|json)$/,
         use: 'file-loader',
       },
       {
