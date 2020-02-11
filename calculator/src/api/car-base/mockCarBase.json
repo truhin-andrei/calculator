@@ -1,0 +1,16 @@
+[
+  {
+    "msrp": 50,
+    "vehicleNname": "Toyota",
+    "dealerName": "Jone Doe",
+    "dealerPhone": "+8-888-888-88-88",
+    "dealerRating": "9.8"
+  },
+  {
+    "msrp": 70,
+    "vehicleNname": "Lada",
+    "dealerName": "Kate Smith",
+    "dealerPhone": "+78-777-777-77-55",
+    "dealerRating": "5.3"
+  }
+]
