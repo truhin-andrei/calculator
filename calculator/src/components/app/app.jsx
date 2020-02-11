@@ -3,6 +3,7 @@ import './app.css';
 import Tab from '../tab/tab';
 import Card from '../card/card';
 import carBase from '../../api/car-base/carBase';
+import { getLoanPayment } from '../../services/calculator/calculator';
 
 class App extends Component {
   constructor(props) {
@@ -15,14 +16,24 @@ class App extends Component {
       tradeIn: 0,
       downPayment: 0,
       APR: 0,
+      carData: {},
     };
     this.handleBtn = this.handleBtn.bind(this);
     this.handleInput = this.handleInput.bind(this);
+    this.updateCarData = this.updateCarData.bind(this);
   }
 
   async componentDidMount() {
-    const a = await carBase();
-    console.log(2, a);
+    this.updateCarData();
+  }
+
+  async updateCarData() {
+    carBase().then(data => {
+      this.setState({ carData: data[0] });
+    });
+    // this.carData = await carBaseData;
+
+    console.log(2, this.carData);
   }
 
   handleBtn(newValue, nameBtn) {
@@ -48,7 +59,7 @@ class App extends Component {
   }
 
   render() {
-    const { loading, tabName, term, creditScore, tradeIn, downPayment, APR } = this.state;
+    const { loading, tabName, term, creditScore, tradeIn, downPayment, APR, carData } = this.state;
     if (!loading) {
       return 'loading';
     }
@@ -64,7 +75,11 @@ class App extends Component {
           downPayment={downPayment}
           APR={APR}
         />
-        <Card />
+        <Card
+          tabName={tabName}
+          carData={carData}
+          LoanPayment={getLoanPayment(carData.msrp, tradeIn, downPayment, term, creditScore, APR)}
+        />
       </div>
     );
   }
