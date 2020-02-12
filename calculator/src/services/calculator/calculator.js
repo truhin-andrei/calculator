@@ -12,18 +12,24 @@ function transformCreditScoreValue(creditScoreValue) {
 }
 
 function getLoanPayment(msrp, tradeIn, downPayment, term, creditScoreValue, apr) {
-  console.log(msrp, tradeIn, downPayment, term, creditScoreValue, apr);
   return (
-    ((+msrp - +tradeIn - +downPayment) / +term) *
-    transformCreditScoreValue(+creditScoreValue) *
-    +apr
+    Math.floor(
+      ((+msrp - +tradeIn - +downPayment) / +term) *
+        transformCreditScoreValue(+creditScoreValue) *
+        +apr *
+        100
+    ) / 100
   );
 }
 
 function getLeasePayment(msrp, tradeIn, downPayment, term, creditScoreValue, mileage) {
+  console.log(msrp, tradeIn, downPayment, term, creditScoreValue, mileage);
   return (
-    (((msrp - tradeIn - downPayment) * mileage) / 10000 / term) *
-    transformCreditScoreValue(creditScoreValue)
+    Math.floor(
+      (((msrp - tradeIn - downPayment) * mileage) / 10000 / term) *
+        transformCreditScoreValue(creditScoreValue) *
+        100
+    ) / 100
   );
 }
 

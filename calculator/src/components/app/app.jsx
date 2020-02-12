@@ -3,7 +3,7 @@ import './app.css';
 import Tab from '../tab/tab';
 import Card from '../card/card';
 import carBase from '../../api/car-base/carBase';
-import { getLoanPayment } from '../../services/calculator/calculator';
+import { getLoanPayment, getLeasePayment } from '../../services/calculator/calculator';
 
 class App extends Component {
   constructor(props) {
@@ -17,6 +17,7 @@ class App extends Component {
       downPayment: 0,
       APR: 0,
       carData: {},
+      mileages: '12000',
     };
     this.handleBtn = this.handleBtn.bind(this);
     this.handleInput = this.handleInput.bind(this);
@@ -31,24 +32,24 @@ class App extends Component {
     carBase().then(data => {
       this.setState({ carData: data[0] });
     });
-    // this.carData = await carBaseData;
-
-    console.log(2, this.carData);
+    setTimeout(() => {
+      this.setState({ loading: false });
+    }, 1000);
   }
 
   handleBtn(newValue, nameBtn) {
-    // console.log(1, newValue, nameBtn);
     if (nameBtn === 'term') {
       this.setState({ term: newValue });
     } else if (nameBtn === 'creditScore') {
       this.setState({ creditScore: newValue });
+    } else if (nameBtn === 'mileages') {
+      this.setState({ mileages: newValue });
     } else {
       this.setState({ tabName: newValue });
     }
   }
 
   handleInput(newValue, nameInput) {
-    // console.log(2, newValue, nameInput);
     if (nameInput === 'tradeIn' && !Number.isNaN(newValue)) {
       this.setState({ tradeIn: newValue });
     } else if (nameInput === 'downPayment' && !Number.isNaN(newValue)) {
@@ -59,10 +60,18 @@ class App extends Component {
   }
 
   render() {
-    const { loading, tabName, term, creditScore, tradeIn, downPayment, APR, carData } = this.state;
-    if (!loading) {
-      return 'loading';
-    }
+    const {
+      loading,
+      tabName,
+      term,
+      creditScore,
+      tradeIn,
+      downPayment,
+      APR,
+      carData,
+      mileages,
+    } = this.state;
+
     return (
       <div className="app">
         <Tab
@@ -74,11 +83,22 @@ class App extends Component {
           tradeIn={tradeIn}
           downPayment={downPayment}
           APR={APR}
+          mileages={mileages}
         />
+
         <Card
           tabName={tabName}
           carData={carData}
-          LoanPayment={getLoanPayment(carData.msrp, tradeIn, downPayment, term, creditScore, APR)}
+          loanPayment={getLoanPayment(carData.msrp, tradeIn, downPayment, term, creditScore, APR)}
+          leasePayment={getLeasePayment(
+            carData.msrp,
+            tradeIn,
+            downPayment,
+            term,
+            creditScore,
+            mileages
+          )}
+          loading={loading}
         />
       </div>
     );
