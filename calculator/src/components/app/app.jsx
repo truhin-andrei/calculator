@@ -24,10 +24,12 @@ class App extends Component {
     this.handleBtn = this.handleBtn.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.updateData = this.updateData.bind(this);
+    this.restorData = this.restorData.bind(this);
   }
 
   async componentDidMount() {
     this.updateData();
+    this.restorData();
   }
 
   async updateData() {
@@ -47,24 +49,59 @@ class App extends Component {
   handleBtn(newValue, nameBtn) {
     if (nameBtn === 'term') {
       this.setState({ term: newValue });
+      localStorage.setItem('term', newValue);
     } else if (nameBtn === 'creditScore') {
       this.setState({ creditScore: newValue });
+      localStorage.setItem('creditScore', newValue);
     } else if (nameBtn === 'mileages') {
       this.setState({ mileages: newValue });
+      localStorage.setItem('mileages', newValue);
     } else {
       this.setState({ tabName: newValue });
+      localStorage.setItem('tabName', newValue);
     }
   }
 
   handleInput(newValue, nameInput) {
     if (nameInput === 'tradeIn' && !Number.isNaN(newValue)) {
       this.setState({ tradeIn: newValue });
+      localStorage.setItem('tradeIn', newValue);
     } else if (nameInput === 'downPayment' && !Number.isNaN(newValue)) {
       this.setState({ downPayment: newValue });
+      localStorage.setItem('downPayment', newValue);
     } else if (nameInput === 'zipCode' && !Number.isNaN(newValue)) {
       this.setState({ zipCode: newValue });
+      localStorage.setItem('zipCode', newValue);
     } else if (newValue <= 100 && newValue >= 0) {
       this.setState({ APR: newValue });
+      localStorage.setItem('APR', newValue);
+    }
+  }
+
+  restorData() {
+    if (localStorage.getItem('APR')) {
+      this.setState({ APR: localStorage.getItem('APR') });
+    }
+    if (localStorage.getItem('zipCode')) {
+      this.setState({ zipCode: localStorage.getItem('zipCode') });
+    }
+    if (localStorage.getItem('downPayment')) {
+      this.setState({ downPayment: localStorage.getItem('downPayment') });
+    }
+    if (localStorage.getItem('tradeIn')) {
+      this.setState({ tradeIn: localStorage.getItem('tradeIn') });
+    }
+    if (localStorage.getItem('tabName')) {
+      this.setState({ tabName: localStorage.getItem('tabName') });
+    }
+    if (localStorage.getItem('mileages')) {
+      this.setState({ mileages: localStorage.getItem('mileages') });
+    }
+    if (localStorage.getItem('creditScore')) {
+      this.setState({ creditScore: localStorage.getItem('creditScore') });
+    }
+    if (localStorage.getItem('term')) {
+      this.setState({ term: localStorage.getItem('term') });
     }
   }
 
@@ -90,9 +127,9 @@ class App extends Component {
           term={term}
           creditScore={creditScore}
           handleInput={this.handleInput}
-          tradeIn={tradeIn}
-          downPayment={downPayment}
-          APR={APR}
+          tradeIn={+tradeIn}
+          downPayment={+downPayment}
+          APR={+APR}
           mileages={mileages}
           zipCode={+zipCode}
         />
