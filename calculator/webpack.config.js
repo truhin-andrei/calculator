@@ -1,0 +1,94 @@
+
+const webpack = require('webpack');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
+
+function NothingPlugin() {
+  this.apply = function() {};
+}
+
+const config = {
+  entry: ["@babel/polyfill",'./src/index.jsx'],
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        use: 'babel-loader',
+        exclude: /node_modules/,
+      },
+      {
+        enforce: 'pre',
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader',
+        options: {
+          fix: true,
+        },
+      },
+      {
+        test: /\.(png|svg|jpg|gif|json)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf|json)$/,
+        use: 'file-loader',
+      },
+      {
+        test: /\.(css|scss|sass)$/,
+        exclude: /\.module\.(css|scss|sass)$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            },
+          },
+          'sass-loader',
+        ],
+      },
+      {
+        test: /\.module\.(css|scss|sass)$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: true,
+            },
+          },
+          'sass-loader',
+        ],
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
+  devServer: {
+    contentBase: './dist',
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    }),
+    //env && env.analyze ? new BundleAnalyzerPlugin() : new NothingPlugin(),
+   // new BundleAnalyzerPlugin()
+  ],
+};
+
+module.exports = config;

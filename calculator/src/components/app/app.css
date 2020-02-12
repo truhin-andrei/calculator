@@ -1,0 +1,10 @@
+.app {
+  max-width: 1000px;
+  min-height: 500px;
+  margin: 20px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+
+  background-color: aqua;
+}

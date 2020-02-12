@@ -1,0 +1,12 @@
+.btn-panel{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.btn-header{
+  display: block;
+  width: 100%;
+}
