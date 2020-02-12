@@ -15,6 +15,7 @@ const Tab = ({
   downPayment,
   APR,
   mileages,
+  zipCode,
 }) => {
   function tabToggle(tabN) {
     if (tabN === 'loan') {
@@ -50,6 +51,15 @@ const Tab = ({
 
     return (
       <>
+        <InputPanel
+          inputRenderData={{
+            label: 'Zip Code (Postal Code)',
+            inputType: 'zipCode',
+            name: 'zipCode',
+          }}
+          handleInput={handleInput}
+          inputValue={zipCode}
+        />
         <SelectPanel
           selectRenderData={{
             label: 'Term(months)',
@@ -117,6 +127,7 @@ Tab.propTypes = {
   downPayment: PropTypes.number.isRequired,
   APR: PropTypes.number.isRequired,
   mileages: PropTypes.string.isRequired,
+  zipCode: PropTypes.number.isRequired,
 };
 Tab.defaultProps = {
   tabName: 'loan',

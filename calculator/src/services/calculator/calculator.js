@@ -23,7 +23,7 @@ function getLoanPayment(msrp, tradeIn, downPayment, term, creditScoreValue, apr)
 }
 
 function getLeasePayment(msrp, tradeIn, downPayment, term, creditScoreValue, mileage) {
-  console.log(msrp, tradeIn, downPayment, term, creditScoreValue, mileage);
+  // console.log(msrp, tradeIn, downPayment, term, creditScoreValue, mileage);
   return (
     Math.floor(
       (((msrp - tradeIn - downPayment) * mileage) / 10000 / term) *
@@ -33,4 +33,11 @@ function getLeasePayment(msrp, tradeIn, downPayment, term, creditScoreValue, mil
   );
 }
 
-export { getLoanPayment, getLeasePayment };
+function getTax(zip) {
+  const tax = String(zip)
+    .split('')
+    .map(num => num * 11);
+  return tax;
+}
+
+export { getLoanPayment, getLeasePayment, getTax };

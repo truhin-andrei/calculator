@@ -3,7 +3,8 @@ import './app.css';
 import Tab from '../tab/tab';
 import Card from '../card/card';
 import carBase from '../../api/car-base/carBase';
-import { getLoanPayment, getLeasePayment } from '../../services/calculator/calculator';
+import { getLoanPayment, getLeasePayment, getTax } from '../../services/calculator/calculator';
+import getZip from '../../api/ip-info/ipInfo';
 
 class App extends Component {
   constructor(props) {
@@ -18,23 +19,29 @@ class App extends Component {
       APR: 0,
       carData: {},
       mileages: '12000',
+      zipCode: '',
     };
     this.handleBtn = this.handleBtn.bind(this);
     this.handleInput = this.handleInput.bind(this);
-    this.updateCarData = this.updateCarData.bind(this);
+    this.updateData = this.updateData.bind(this);
   }
 
   async componentDidMount() {
-    this.updateCarData();
+    this.updateData();
   }
 
-  async updateCarData() {
-    carBase().then(data => {
-      this.setState({ carData: data[0] });
-    });
-    setTimeout(() => {
-      this.setState({ loading: false });
-    }, 1000);
+  async updateData() {
+    Promise.allSettled([carBase(), getZip()])
+      .then(data => {
+        this.setState({ carData: data[0].value[0] });
+        this.setState({ zipCode: data[1].value });
+        getTax(data[1].value);
+      })
+      .finally(
+        setTimeout(() => {
+          this.setState({ loading: false });
+        }, 1000)
+      );
   }
 
   handleBtn(newValue, nameBtn) {
@@ -54,6 +61,8 @@ class App extends Component {
       this.setState({ tradeIn: newValue });
     } else if (nameInput === 'downPayment' && !Number.isNaN(newValue)) {
       this.setState({ downPayment: newValue });
+    } else if (nameInput === 'zipCode' && !Number.isNaN(newValue)) {
+      this.setState({ zipCode: newValue });
     } else if (newValue <= 100 && newValue >= 0) {
       this.setState({ APR: newValue });
     }
@@ -70,6 +79,7 @@ class App extends Component {
       APR,
       carData,
       mileages,
+      zipCode,
     } = this.state;
 
     return (
@@ -84,6 +94,7 @@ class App extends Component {
           downPayment={downPayment}
           APR={APR}
           mileages={mileages}
+          zipCode={+zipCode}
         />
 
         <Card
@@ -99,6 +110,7 @@ class App extends Component {
             mileages
           )}
           loading={loading}
+          zipCode={+zipCode}
         />
       </div>
     );
